@@ -70,6 +70,17 @@ class _BalanceCardState extends State<BalanceCard> {
                     color: Colors.white.withValues(alpha: 0.8),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "Currency: COP",
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

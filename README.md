@@ -7,6 +7,6 @@
 
 ## Themes
 <div style="display: flex; justify-content: center; gap: 20px;">
-  <img src="https://github.com/user-attachments/assets/94978b2e-bf6f-4f17-a8f1-c74613a30aa5" alt="Theme 1" style="max-width: 200px; height: auto;">
-  <img src="https://github.com/user-attachments/assets/2595399a-5229-41d4-bcfb-f034e1052037" alt="Theme 2" style="max-width: 200px; height: auto;">
+  <img src="https://github.com/user-attachments/assets/94978b2e-bf6f-4f17-a8f1-c74613a30aa5" alt="Theme 1" style="max-width: 300px; height: auto;">
+  <img src="https://github.com/user-attachments/assets/2595399a-5229-41d4-bcfb-f034e1052037" alt="Theme 2" style="max-width: 300px; height: auto;">
 </div>

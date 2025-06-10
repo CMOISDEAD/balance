@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_app/screens/home_page.dart';
+import 'package:new_app/screens/settings_page.dart';
+import 'package:new_app/screens/statistics_page.dart';
 import 'package:new_app/screens/transactions_page.dart';
 
 class MainNavigationWrapper extends StatefulWidget {
@@ -11,7 +13,12 @@ class MainNavigationWrapper extends StatefulWidget {
 
 class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
   var currentPageIndex = 0;
-  final pages = const [HomePage(), TransactionsPage()];
+  final pages = const [
+    HomePage(),
+    TransactionsPage(),
+    StatisticsPage(),
+    SettingsPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +36,16 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
             icon: Icon(Icons.receipt_long_outlined),
             selectedIcon: Icon(Icons.receipt_long),
             label: 'Transactions',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.area_chart_outlined),
+            selectedIcon: Icon(Icons.area_chart),
+            label: 'Statistics',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings_outlined),
+            selectedIcon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
         onDestinationSelected: (index) {

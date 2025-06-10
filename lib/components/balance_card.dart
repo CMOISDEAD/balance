@@ -70,32 +70,6 @@ class _BalanceCardState extends State<BalanceCard> {
                     color: Colors.white.withValues(alpha: 0.8),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.trending_up,
-                              size: 20,
-                              color: Colors.greenAccent,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              "+14.5%",
-                              style: Theme.of(context).textTheme.labelLarge
-                                  ?.copyWith(color: Colors.greenAccent),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

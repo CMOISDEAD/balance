@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/components/transactions/custom_transactions_actions.dart';
 
-class TransactionsPage extends StatelessWidget {
-  const TransactionsPage({super.key});
+class StatisticsPage extends StatelessWidget {
+  const StatisticsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +12,9 @@ class TransactionsPage extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: SizedBox(
           width: double.infinity,
-          child: Column(children: [Text('Transactions')]),
+          child: Column(children: [Text('Statistics')]),
         ),
       ),
-      floatingActionButton: CustomTransactionsActions(),
     );
   }
 }

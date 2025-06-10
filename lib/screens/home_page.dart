@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_app/components/balance_card.dart';
 import 'package:new_app/components/layout/custom_app_bar.dart';
+import 'package:new_app/components/statistics.dart';
 import 'package:new_app/components/transaction_history.dart';
 import 'package:new_app/components/transactions/custom_home_actions.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,9 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
                   BalanceCard(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
+                  Statistics(),
+                  SizedBox(height: 10),
                   TransactionHistory(),
                 ],
               ),

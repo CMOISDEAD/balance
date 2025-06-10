@@ -36,11 +36,7 @@ class TransactionHistory extends StatelessWidget {
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('View All'),
-                            SizedBox(width: 4),
-                            Icon(Icons.chevron_right),
-                          ],
+                          children: const [Icon(Icons.chevron_right)],
                         ),
                       ),
                     ],
@@ -118,7 +114,9 @@ Widget _buildTransactionTile(
         Text(
           '${isIncome ? '+' : '-'}$amount',
           style: TextStyle(
-            color: isIncome ? Colors.green : Colors.red,
+            color: isIncome
+                ? Colors.green
+                : Theme.of(context).colorScheme.error,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),

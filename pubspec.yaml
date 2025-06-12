@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.1.1
   currency_textfield: ^4.14.1
   intl: ^0.20.2
+  relative_time: ^5.0.0
 
 dev_dependencies:
   flutter_test:

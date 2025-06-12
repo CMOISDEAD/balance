@@ -102,6 +102,30 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
+  // Método para obtener transacciones agrupadas por fecha
+  Future<Map<DateTime, List<Transaction>>>
+  getTransactionsGroupedByDate() async {
+    final transactions = await getAllTransactions();
+    final Map<DateTime, List<Transaction>> groupedTransactions = {};
+
+    for (final transaction in transactions) {
+      // Crear una fecha solo con año, mes y día (sin hora)
+      final dateOnly = DateTime(
+        transaction.createdAt.year,
+        transaction.createdAt.month,
+        transaction.createdAt.day,
+      );
+
+      if (groupedTransactions.containsKey(dateOnly)) {
+        groupedTransactions[dateOnly]!.add(transaction);
+      } else {
+        groupedTransactions[dateOnly] = [transaction];
+      }
+    }
+
+    return groupedTransactions;
+  }
+
   // Método para obtener el total de ingresos
   Future<double> getTotalIncome() async {
     final query = selectOnly(transactions)

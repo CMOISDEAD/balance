@@ -136,6 +136,10 @@ class FinanceProvider with ChangeNotifier {
     return await _database.getRecentTransactions(days);
   }
 
+  Future<Map<DateTime, List<Transaction>>> getTransactionByDate() async {
+    return await _database.getTransactionsGroupedByDate();
+  }
+
   // Limpiar recursos
   @override
   void dispose() {

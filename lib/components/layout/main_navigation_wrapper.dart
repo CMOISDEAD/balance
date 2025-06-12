@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_app/screens/cards_page.dart';
 import 'package:new_app/screens/home_page.dart';
 import 'package:new_app/screens/settings_page.dart';
 import 'package:new_app/screens/statistics_page.dart';
@@ -15,6 +16,7 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
   var currentPageIndex = 0;
   final pages = const [
     HomePage(),
+    CardsPage(),
     TransactionsPage(),
     StatisticsPage(),
     SettingsPage(),
@@ -31,6 +33,11 @@ class _MainNavigationWrapperState extends State<MainNavigationWrapper> {
             icon: Icon(Icons.home_outlined),
             selectedIcon: Icon(Icons.home),
             label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.credit_card_outlined),
+            selectedIcon: Icon(Icons.credit_card),
+            label: 'Cards',
           ),
           NavigationDestination(
             icon: Icon(Icons.receipt_long_outlined),

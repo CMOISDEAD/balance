@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/balance_card.dart';
+import 'package:new_app/components/home/total_balance.dart';
 import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/components/statistics.dart';
-import 'package:new_app/components/transaction_history.dart';
-import 'package:new_app/components/transactions/custom_home_actions.dart';
+import 'package:new_app/components/home/statistics.dart';
+import 'package:new_app/components/home/transaction_history.dart';
+import 'package:new_app/components/home/custom_home_actions.dart';
 import 'package:provider/provider.dart';
 import '../providers/finance_provider.dart';
 
@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  BalanceCard(),
+                  TotalBalance(),
                   SizedBox(height: 10),
                   Statistics(),
                   SizedBox(height: 10),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:new_app/components/layout/main_navigation_wrapper.dart';
 import 'package:new_app/providers/finance_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:relative_time/relative_time.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/themes.dart';
 
@@ -28,6 +30,12 @@ class MyApp extends StatelessWidget {
             themeMode: currentMode,
             home: const MainNavigationWrapper(),
             debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              RelativeTimeLocalizations.delegate, // MUY IMPORTANTE
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
           );
         },
       ),

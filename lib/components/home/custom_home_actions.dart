@@ -31,32 +31,14 @@ class CustomHomeActions extends StatelessWidget {
             label: 'Income',
           ),
           SpeedDialChild(
-            backgroundColor: Theme.of(context).colorScheme.errorContainer,
-            foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
-            labelBackgroundColor: Theme.of(context).colorScheme.errorContainer,
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            labelBackgroundColor: Theme.of(
+              context,
+            ).colorScheme.primaryContainer,
             onTap: () => {AddTransactionDialog.show(context, "expense")},
             child: Icon(Icons.money_off),
             label: 'Expense',
-          ),
-          SpeedDialChild(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            labelBackgroundColor: Theme.of(
-              context,
-            ).colorScheme.primaryContainer,
-            onTap: () => {AddTransactionDialog.show(context, "transfer_to")},
-            child: Icon(Icons.arrow_forward),
-            label: 'Move to card',
-          ),
-          SpeedDialChild(
-            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-            labelBackgroundColor: Theme.of(
-              context,
-            ).colorScheme.primaryContainer,
-            onTap: () => {AddTransactionDialog.show(context, "transfer_from")},
-            child: Icon(Icons.arrow_back),
-            label: 'Move from card',
           ),
         ],
       ),

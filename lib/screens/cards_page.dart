@@ -7,6 +7,8 @@ import 'package:new_app/providers/finance_provider.dart';
 import 'package:new_app/utils/currency_helper.dart';
 import 'package:provider/provider.dart';
 
+import '../components/home/add_transaction_dialog.dart';
+
 class CardsPage extends StatefulWidget {
   const CardsPage({super.key});
 
@@ -17,6 +19,7 @@ class CardsPage extends StatefulWidget {
 class _CardsPageState extends State<CardsPage> {
   bool _initialized = false;
 
+  // TODO: check if this still necessary
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -91,6 +94,28 @@ class _CardsPageState extends State<CardsPage> {
               child: Icon(Icons.add_card_sharp),
               label: "Add Card",
             ),
+            SpeedDialChild(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              labelBackgroundColor: Theme.of(
+                context,
+              ).colorScheme.primaryContainer,
+              onTap: () => {AddTransactionDialog.show(context, "transfer_to")},
+              child: Icon(Icons.arrow_forward),
+              label: 'Move to card',
+            ),
+            SpeedDialChild(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              labelBackgroundColor: Theme.of(
+                context,
+              ).colorScheme.primaryContainer,
+              onTap: () => {
+                AddTransactionDialog.show(context, "transfer_from"),
+              },
+              child: Icon(Icons.arrow_back),
+              label: 'Move from card',
+            ),
           ],
         ),
       ),
@@ -100,7 +125,7 @@ class _CardsPageState extends State<CardsPage> {
 
 void _showAddCardDialog(BuildContext context) {
   final provider = Provider.of<FinanceProvider>(context, listen: false);
-  final amountController = CurrencyHelper.createController();
+  final targetAmountController = CurrencyHelper.createController();
   final nameController = TextEditingController();
 
   showDialog(
@@ -114,16 +139,18 @@ void _showAddCardDialog(BuildContext context) {
             TextField(
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'Name',
                 border: OutlineInputBorder(),
+                labelText: 'Name',
+                prefixIcon: Icon(Icons.credit_card),
               ),
             ),
             SizedBox(height: 16),
             TextField(
-              controller: amountController,
+              controller: targetAmountController,
               decoration: InputDecoration(
-                labelText: 'Target Amount (optional)',
                 border: OutlineInputBorder(),
+                labelText: 'Target Amount (optional)',
+                prefixIcon: Icon(Icons.attach_money),
               ),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
             ),
@@ -138,14 +165,15 @@ void _showAddCardDialog(BuildContext context) {
         ElevatedButton(
           onPressed: () async {
             final name = nameController.text.trim();
-            final amount = amountController.doubleValue;
+            final amount = targetAmountController.doubleValue;
 
             if (amount <= 0 || name.isEmpty) {
-              // TODO: implement a snackbar or toast message
-              // _showSnackBar(
-              //   'Please enter a valid amount and description',
-              //   Colors.orange,
-              // );
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Please enter a valid amount and description'),
+                  backgroundColor: Colors.red,
+                ),
+              );
               return;
             }
 
@@ -162,6 +190,7 @@ void _showAddCardDialog(BuildContext context) {
               );
             }
           },
+
           child: Text('Create'),
         ),
       ],

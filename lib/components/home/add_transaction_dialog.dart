@@ -5,10 +5,10 @@ import 'package:new_app/utils/currency_helper.dart';
 import 'package:provider/provider.dart';
 
 final titles = {
-  'income': 'Add Income',
-  'expense': 'Add Expense',
-  'transfer_to': 'Transfer to Card',
-  'transfer_from': 'Transfer from Card',
+  'income': 'Add income',
+  'expense': 'Add expense',
+  'transfer_to': 'Transfer to card',
+  'transfer_from': 'Transfer from card',
 };
 
 final messages = {
@@ -58,36 +58,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
-              controller: amountController,
-              decoration: InputDecoration(
-                labelText: 'Amount',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-            ),
-            if (widget.type == "income" || widget.type == "expense")
-              Column(
-                children: [
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: descriptionController,
-                    decoration: InputDecoration(
-                      labelText: 'Description',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: categoryController,
-                    decoration: InputDecoration(
-                      labelText: 'Category (optional)',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ],
-              ),
-
             if (widget.type == "transfer_to" || widget.type == "transfer_from")
               FutureBuilder<List<db.Card>>(
                 future: provider.getAllCards(),
@@ -113,11 +83,11 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
 
                   return Column(
                     children: [
-                      const SizedBox(height: 16),
                       DropdownButtonFormField<int>(
                         value: selectedCardId,
                         decoration: const InputDecoration(
                           labelText: 'Select the card',
+                          prefixIcon: Icon(Icons.credit_card),
                           border: OutlineInputBorder(),
                         ),
                         items: cards.map((card) {
@@ -134,9 +104,42 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
                           });
                         },
                       ),
+                      const SizedBox(height: 16),
                     ],
                   );
                 },
+              ),
+            TextField(
+              controller: amountController,
+              decoration: InputDecoration(
+                labelText: 'Amount',
+                prefixIcon: Icon(Icons.attach_money),
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+            ),
+            if (widget.type == "income" || widget.type == "expense")
+              Column(
+                children: [
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      prefixIcon: Icon(Icons.description),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: categoryController,
+                    decoration: InputDecoration(
+                      labelText: 'Category (optional)',
+                      prefixIcon: Icon(Icons.category),
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ],
               ),
           ],
         ),

@@ -28,6 +28,14 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<FinanceProvider>(context, listen: false);
+
+    final hasTarget = targetAmount != null && targetAmount! > 0;
+    final progress = hasTarget ? (amount / targetAmount!).clamp(0.0, 1.0) : 0.0;
+    final isCompleted = hasTarget && amount >= targetAmount!;
+    final progressColor = isCompleted
+        ? Colors.greenAccent.shade400
+        : Theme.of(context).colorScheme.onPrimaryContainer;
+
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -39,6 +47,8 @@ class BalanceCard extends StatelessWidget {
           }
         },
         child: Container(
+          height: hasTarget ? 190 : 170,
+          width: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [from, to],
@@ -46,90 +56,108 @@ class BalanceCard extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
           ),
-          height: 150,
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          child: Stack(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Title + Amount (TopLeft)
-              Positioned(
-                top: 10,
-                left: 10,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              // Title + Icon
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleMedium),
+                  Icon(
+                    Icons.credit_card,
+                    size: 26,
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // Amount
+              Text(
+                CurrencyHelper.formatCurrency(amount),
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: amount < 0
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+
+              // Total
+              if (total != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    "Total: ${CurrencyHelper.formatCurrency(total)}",
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+
+              // Progress bar + percent
+              if (hasTarget) ...[
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(title, style: Theme.of(context).textTheme.titleMedium),
                     Text(
-                      CurrencyHelper.formatCurrency(amount),
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: amount < 0
-                            ? Theme.of(context).colorScheme.error
-                            : Theme.of(context).colorScheme.onPrimaryContainer,
+                      "Progress",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onPrimaryContainer.withOpacity(0.8),
                       ),
                     ),
-                    if (total != null)
-                      Text(
-                        "of: ${CurrencyHelper.formatCurrency(total)}",
-                        style: Theme.of(context).textTheme.labelMedium,
+                    Text(
+                      "${(progress * 100).toStringAsFixed(0)}%",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: progressColor,
+                        fontWeight: isCompleted
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
+                    ),
                   ],
                 ),
-              ),
-
-              // Card icon (TopRight)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Icon(
-                  Icons.credit_card,
-                  size: 26,
-                  color: Colors.white.withOpacity(0.8),
-                ),
-              ),
-
-              // Currency info (BottomLeft)
-              Positioned(
-                bottom: 10,
-                left: 10,
-                child: Text(
-                  "Currency: COP",
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onPrimaryContainer.withOpacity(0.8),
+                const SizedBox(height: 4),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    minHeight: 6,
+                    backgroundColor: Colors.white.withOpacity(0.2),
+                    color: progressColor,
                   ),
                 ),
-              ),
+              ],
 
-              // Target amount (BottomRight)
-              if (targetAmount != null)
-                Positioned(
-                  bottom: 10,
-                  right: 10,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Target: ",
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                      Text(
-                        CurrencyHelper.formatCurrency(targetAmount!),
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onPrimaryContainer,
-                        ),
-                      ),
-                    ],
+              const Spacer(),
+
+              // Footer
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Currency: COP",
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onPrimaryContainer.withOpacity(0.8),
+                    ),
                   ),
-                ),
+                  if (targetAmount != null)
+                    Text(
+                      "Target: ${CurrencyHelper.formatCurrency(targetAmount!)}",
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),

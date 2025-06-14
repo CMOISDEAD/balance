@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:new_app/components/home/add_transaction_dialog.dart';
+import 'package:balance/components/home/add_transaction_dialog.dart';
 
 ValueNotifier<bool> isDialOpen = ValueNotifier(false);
 

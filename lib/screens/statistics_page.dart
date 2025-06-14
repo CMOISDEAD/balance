@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/layout/custom_app_bar.dart';
+import 'package:balance/components/layout/custom_app_bar.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({super.key});

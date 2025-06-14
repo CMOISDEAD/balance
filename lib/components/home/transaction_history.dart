@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/ui/transactions/transaction_tile.dart';
-import 'package:new_app/providers/finance_provider.dart';
+import 'package:balance/components/ui/transactions/transaction_tile.dart';
+import 'package:balance/providers/finance_provider.dart';
 import 'package:provider/provider.dart';
 
 class TransactionHistory extends StatelessWidget {

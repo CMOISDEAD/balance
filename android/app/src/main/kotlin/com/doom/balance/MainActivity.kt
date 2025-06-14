@@ -1,4 +1,4 @@
-package com.example.new_app
+package com.doom.balance
 
 import io.flutter.embedding.android.FlutterActivity
 

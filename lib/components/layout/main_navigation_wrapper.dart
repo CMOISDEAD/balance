@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/screens/cards_page.dart';
-import 'package:new_app/screens/home_page.dart';
-import 'package:new_app/screens/settings_page.dart';
-import 'package:new_app/screens/statistics_page.dart';
-import 'package:new_app/screens/transactions_page.dart';
+import 'package:balance/screens/cards_page.dart';
+import 'package:balance/screens/home_page.dart';
+import 'package:balance/screens/settings_page.dart';
+import 'package:balance/screens/statistics_page.dart';
+import 'package:balance/screens/transactions_page.dart';
 
 class MainNavigationWrapper extends StatefulWidget {
   const MainNavigationWrapper({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/providers/finance_provider.dart';
+import 'package:balance/components/layout/custom_app_bar.dart';
+import 'package:balance/providers/finance_provider.dart';
 import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {

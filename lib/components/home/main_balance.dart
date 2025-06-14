@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:new_app/providers/finance_provider.dart';
-import 'package:new_app/components/ui/balance_card.dart';
+import 'package:balance/providers/finance_provider.dart';
+import 'package:balance/components/ui/balance_card.dart';
 
 class MainBalance extends StatefulWidget {
   const MainBalance({super.key});

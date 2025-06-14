@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/home/custom_home_actions.dart';
-import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/components/transactions/custom_transactions_actions.dart';
-import 'package:new_app/components/transactions/grouped_transactions_list.dart';
-import 'package:new_app/components/ui/transactions/transaction_tile.dart';
-import 'package:new_app/providers/finance_provider.dart';
+import 'package:balance/components/layout/custom_app_bar.dart';
+import 'package:balance/components/transactions/grouped_transactions_list.dart';
+import 'package:balance/providers/finance_provider.dart';
 import 'package:provider/provider.dart';
 
 class TransactionsPage extends StatelessWidget {

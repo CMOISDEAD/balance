@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/ui/transactions/transaction_tile.dart';
-import 'package:new_app/database/database.dart';
-import 'package:new_app/providers/finance_provider.dart';
+import 'package:balance/components/ui/transactions/transaction_tile.dart';
+import 'package:balance/database/database.dart';
+import 'package:balance/providers/finance_provider.dart';
 import 'package:intl/intl.dart';
 
 class GroupedTransactionsList extends StatelessWidget {

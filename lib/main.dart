@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/layout/main_navigation_wrapper.dart';
-import 'package:new_app/providers/finance_provider.dart';
+import 'package:balance/components/layout/main_navigation_wrapper.dart';
+import 'package:balance/providers/finance_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:relative_time/relative_time.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

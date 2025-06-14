@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/home/main_balance.dart';
-import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/components/home/statistics.dart';
-import 'package:new_app/components/home/transaction_history.dart';
-import 'package:new_app/components/home/custom_home_actions.dart';
+import 'package:balance/components/home/main_balance.dart';
+import 'package:balance/components/layout/custom_app_bar.dart';
+import 'package:balance/components/home/statistics.dart';
+import 'package:balance/components/home/transaction_history.dart';
+import 'package:balance/components/home/custom_home_actions.dart';
 import 'package:provider/provider.dart';
 import '../providers/finance_provider.dart';
 

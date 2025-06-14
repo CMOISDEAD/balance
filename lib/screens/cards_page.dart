@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:new_app/components/home/main_balance.dart';
-import 'package:new_app/components/layout/custom_app_bar.dart';
-import 'package:new_app/components/ui/balance_card.dart';
-import 'package:new_app/providers/finance_provider.dart';
-import 'package:new_app/utils/currency_helper.dart';
+import 'package:balance/components/home/main_balance.dart';
+import 'package:balance/components/layout/custom_app_bar.dart';
+import 'package:balance/components/ui/balance_card.dart';
+import 'package:balance/providers/finance_provider.dart';
+import 'package:balance/utils/currency_helper.dart';
 import 'package:provider/provider.dart';
 
 import '../components/home/add_transaction_dialog.dart';

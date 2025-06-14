@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/database/database.dart';
-import 'package:new_app/providers/finance_provider.dart';
-import 'package:new_app/utils/currency_helper.dart';
+import 'package:balance/database/database.dart';
+import 'package:balance/providers/finance_provider.dart';
+import 'package:balance/utils/currency_helper.dart';
 import 'package:relative_time/relative_time.dart';
 
 class TransactionTile extends StatelessWidget {

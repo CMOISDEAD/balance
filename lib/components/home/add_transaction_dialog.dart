@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/database/database.dart' as db;
-import 'package:new_app/providers/finance_provider.dart';
-import 'package:new_app/utils/currency_helper.dart';
+import 'package:balance/database/database.dart' as db;
+import 'package:balance/providers/finance_provider.dart';
+import 'package:balance/utils/currency_helper.dart';
 import 'package:provider/provider.dart';
 
 final titles = {

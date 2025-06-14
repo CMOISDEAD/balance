@@ -167,10 +167,10 @@ void _showAddCardDialog(BuildContext context) {
             final name = nameController.text.trim();
             final amount = targetAmountController.doubleValue;
 
-            if (amount <= 0 || name.isEmpty) {
+            if (amount < 0 || name.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Please enter a valid amount and description'),
+                  content: Text('Please enter a valid data.'),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -178,7 +178,10 @@ void _showAddCardDialog(BuildContext context) {
             }
 
             try {
-              provider.createCard(name: name, targetAmount: amount);
+              provider.createCard(
+                name: name,
+                targetAmount: amount == 0 ? null : amount,
+              );
               Navigator.pop(context);
             } catch (e) {
               Navigator.pop(context);

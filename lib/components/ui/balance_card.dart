@@ -30,7 +30,11 @@ class BalanceCard extends StatelessWidget {
     final provider = Provider.of<FinanceProvider>(context, listen: false);
 
     final hasTarget = targetAmount != null && targetAmount! > 0;
-    final progress = hasTarget ? (amount / targetAmount!).clamp(0.0, 1.0) : 0.0;
+    final rawProgress = hasTarget ? amount / targetAmount! : 0.0;
+    final cappedProgress = hasTarget ? rawProgress.clamp(0.0, 1.0) : 0.0;
+    final percentageLabel = hasTarget
+        ? (rawProgress * 100).toStringAsFixed(0)
+        : 0.0;
     final isCompleted = hasTarget && amount >= targetAmount!;
     final progressColor = isCompleted
         ? Colors.greenAccent.shade400
@@ -113,7 +117,7 @@ class BalanceCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${(progress * 100).toStringAsFixed(0)}%",
+                      "$percentageLabel%",
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: progressColor,
                         fontWeight: isCompleted
@@ -127,7 +131,7 @@ class BalanceCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: LinearProgressIndicator(
-                    value: progress,
+                    value: cappedProgress,
                     minHeight: 6,
                     backgroundColor: Colors.white.withOpacity(0.2),
                     color: progressColor,

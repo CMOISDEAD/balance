@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_app/components/home/total_balance.dart';
+import 'package:new_app/components/home/main_balance.dart';
 import 'package:new_app/components/layout/custom_app_bar.dart';
 import 'package:new_app/components/home/statistics.dart';
 import 'package:new_app/components/home/transaction_history.dart';
@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  TotalBalance(),
+                  MainBalance(),
                   SizedBox(height: 10),
                   Statistics(),
                   SizedBox(height: 10),

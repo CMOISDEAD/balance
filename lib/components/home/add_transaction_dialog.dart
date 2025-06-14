@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:new_app/database/database.dart' as db;
 import 'package:new_app/providers/finance_provider.dart';
 import 'package:new_app/utils/currency_helper.dart';
 import 'package:provider/provider.dart';
 
-class AddTransactionDialog extends StatefulWidget {
-  final bool isIncome;
+final titles = {
+  'income': 'Add Income',
+  'expense': 'Add Expense',
+  'transfer_to': 'Transfer to Card',
+  'transfer_from': 'Transfer from Card',
+};
 
-  const AddTransactionDialog({Key? key, required this.isIncome})
-    : super(key: key);
+final messages = {
+  'income': 'Income added',
+  'expense': 'Expense added',
+  'transfer_to': 'Transfer to card completed',
+  'transfer_from': 'Transfer from card completed',
+};
+
+class AddTransactionDialog extends StatefulWidget {
+  final String type;
+
+  const AddTransactionDialog({Key? key, required this.type}) : super(key: key);
 
   @override
   State<AddTransactionDialog> createState() => _AddTransactionDialogState();
 
-  static Future<void> show(BuildContext context, bool isIncome) {
+  static Future<void> show(BuildContext context, String type) {
     return showDialog(
       context: context,
-      builder: (context) => AddTransactionDialog(isIncome: isIncome),
+      builder: (context) => AddTransactionDialog(type: type),
     );
   }
 }
@@ -24,6 +38,7 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
   late final amountController = CurrencyHelper.createController();
   late final descriptionController = TextEditingController();
   late final categoryController = TextEditingController();
+  int? selectedCardId;
 
   @override
   void dispose() {
@@ -35,8 +50,10 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FinanceProvider>(context, listen: false);
+
     return AlertDialog(
-      title: Text(widget.isIncome ? 'Add Income' : 'Add Expense'),
+      title: Text(titles[widget.type] ?? 'Add Transaction'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -49,22 +66,78 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               ),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: descriptionController,
-              decoration: InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
+            if (widget.type == "income" || widget.type == "expense")
+              Column(
+                children: [
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: descriptionController,
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: categoryController,
+                    decoration: InputDecoration(
+                      labelText: 'Category (optional)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: categoryController,
-              decoration: InputDecoration(
-                labelText: 'Category (optional)',
-                border: OutlineInputBorder(),
+
+            if (widget.type == "transfer_to" || widget.type == "transfer_from")
+              FutureBuilder<List<db.Card>>(
+                future: provider.getAllCards(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text('Error loading the cards: ${snapshot.error}'),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text('There are no cards aviable.'),
+                    );
+                  }
+
+                  final cards = snapshot.data!;
+
+                  return Column(
+                    children: [
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<int>(
+                        value: selectedCardId,
+                        decoration: const InputDecoration(
+                          labelText: 'Select the card',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: cards.map((card) {
+                          return DropdownMenuItem<int>(
+                            value: card.id,
+                            child: Text(
+                              card.name,
+                            ), // o card.id.toString() si no tienes nombre
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCardId = value;
+                          });
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
-            ),
           ],
         ),
       ),
@@ -83,35 +156,53 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
     final description = descriptionController.text.trim();
     final category = categoryController.text.trim();
 
-    if (amount <= 0 || description.isEmpty) {
-      _showSnackBar(
-        'Please enter a valid amount and description',
-        Colors.orange,
-      );
-      return;
+    if (widget.type == "income" || widget.type == "expense") {
+      if (amount <= 0 || description.isEmpty) {
+        _showSnackBar(
+          'Please enter a valid amount and description',
+          Colors.orange,
+        );
+        return;
+      }
+    } else if (widget.type == "transfer_to" || widget.type == "transfer_from") {
+      if (amount <= 0 || selectedCardId == null) {
+        _showSnackBar(
+          'Please enter a valid amount and select a card',
+          Colors.orange,
+        );
+        return;
+      }
     }
 
     try {
       final provider = Provider.of<FinanceProvider>(context, listen: false);
 
-      if (widget.isIncome) {
+      if (widget.type == "income") {
         await provider.addIncome(
           amount: amount,
           description: description,
           category: category.isEmpty ? null : category,
         );
-      } else {
+      } else if (widget.type == "expense") {
         await provider.addExpense(
           amount: amount,
           description: description,
           category: category.isEmpty ? null : category,
         );
+      } else if (widget.type == "transfer_to" && selectedCardId != null) {
+        await provider.transferToCard(cardId: selectedCardId!, amount: amount);
+      } else if (widget.type == "transfer_from" && selectedCardId != null) {
+        await provider.transferFromCard(
+          cardId: selectedCardId!,
+          amount: amount,
+        );
       }
 
       Navigator.pop(context);
+
       _showSnackBar(
-        widget.isIncome ? 'Income added' : 'Expense added',
-        widget.isIncome ? Colors.green : Colors.red,
+        messages[widget.type] ?? 'Transaction added',
+        widget.type == "expense" ? Colors.red : Colors.green,
       );
     } catch (e) {
       _showSnackBar('Error adding transaction', Colors.red);

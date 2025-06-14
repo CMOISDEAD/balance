@@ -8,47 +8,68 @@ class TransactionTile extends StatelessWidget {
   final Transaction transaction;
   final FinanceProvider provider;
 
-
-  const TransactionTile({super.key,
+  const TransactionTile({
+    super.key,
     required this.transaction,
     required this.provider,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isTransfer =
+        transaction.type == 'transfer_to' ||
+        transaction.type == 'transfer_from';
     final isIncome = transaction.type == 'income';
     final amount = CurrencyHelper.formatCurrency(transaction.amount);
 
     return ListTile(
-    leading: CircleAvatar(
-      backgroundColor: isIncome ? Colors.green.shade100 : Colors.red.shade100,
-      child: Icon(
-        isIncome ? Icons.add : Icons.remove,
-        color: isIncome ? Colors.green : Colors.red,
-      ),
-    ),
-    title: Text(transaction.description),
-    subtitle: Text(
-      '${RelativeTime(context).format(transaction.createdAt)} ${transaction.category != null ? ' • ${transaction.category}' : ''}',
-    ),
-    trailing: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          '${isIncome ? '+' : '-'}$amount',
-          style: TextStyle(
-            color: isIncome
-                ? Colors.green
-                : Theme.of(context).colorScheme.error,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
+      leading: CircleAvatar(
+        backgroundColor: isTransfer
+            ? Theme.of(context).colorScheme.primaryContainer
+            : isIncome
+            ? Colors.green.shade100
+            : Colors.red.shade100,
+        child: Icon(
+          isTransfer
+              ? Icons.credit_card
+              : isIncome
+              ? Icons.add
+              : Icons.remove,
+          color: isTransfer
+              ? Theme.of(context).colorScheme.onPrimaryContainer
+              : isIncome
+              ? Colors.green
+              : Colors.red,
         ),
-      ],
-    ),
-    onLongPress: () => _showDeleteDialog(context, transaction, provider),
-  );
+      ),
+      title: Text(
+        transaction.description,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        '${RelativeTime(context).format(transaction.createdAt)} ${transaction.category != null ? ' • ${transaction.category}' : ''}',
+        style: Theme.of(context).textTheme.bodySmall,
+      ),
+      trailing: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            '${!isTransfer && isIncome ? '+' : '-'}$amount',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: isTransfer
+                  ? Theme.of(context).colorScheme.onPrimaryContainer
+                  : isIncome
+                  ? Colors.green
+                  : Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ],
+      ),
+      onLongPress: () => _showDeleteDialog(context, transaction, provider),
+    );
   }
 }
 

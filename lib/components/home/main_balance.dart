@@ -3,21 +3,22 @@ import 'package:provider/provider.dart';
 import 'package:new_app/providers/finance_provider.dart';
 import 'package:new_app/components/ui/balance_card.dart';
 
-class TotalBalance extends StatefulWidget {
-  const TotalBalance({super.key});
+class MainBalance extends StatefulWidget {
+  const MainBalance({super.key});
 
   @override
-  State<TotalBalance> createState() => _TotalBalance();
+  State<MainBalance> createState() => _MainBalance();
 }
 
-class _TotalBalance extends State<TotalBalance> {
+class _MainBalance extends State<MainBalance> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FinanceProvider>(
       builder: (context, provider, child) {
         return BalanceCard(
-          title: 'Total Balance',
-          ammount: provider.balance,
+          title: 'Main Balance',
+          total: provider.totalBalance,
+          amount: provider.balance,
           from: Theme.of(context).colorScheme.primaryContainer,
           to: Theme.of(context).colorScheme.surfaceTint,
         );
